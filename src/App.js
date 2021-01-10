@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import AddTodo from "./components/AddTodo";
+import Todo from "./components/Todo";
 
 function App() {
+  const [todos, setTodos] = useState([]);
+
+  // Handle Delete
+  const handleDelete = (id) => {
+    //console.log(id);
+    const newTodos = todos.filter((todo) => {
+      return todo.id !== id;
+    });
+
+    setTodos(newTodos);
+  };
+
+  // Handle Add
+  const handleSubmit = (content) => {
+    //console.log(content);
+    const todo = {
+      id: Math.random(),
+      content,
+    };
+
+    setTodos([...todos, todo]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1 className="m-2 p-2 text-secondary font-weight-bold">Todos</h1>
+      <Todo todos={todos} handleDelete={handleDelete} />
+      <AddTodo handleSubmit={handleSubmit} />
     </div>
   );
 }
